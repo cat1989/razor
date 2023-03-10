@@ -1,6 +1,9 @@
 #!/usr/bin/env node
+const path = require('path')
+const fs = require('fs')
+
 let [
-    ,,command = "create"
+    ,,command = "help"
 ] = process.argv
 if ([
     '-v',
@@ -14,8 +17,23 @@ if (![
     'create',
     'dev',
     'build',
+    'help',
 ].includes(command)) {
     process.exit()
 }
 
-require(`../lib/commands/${command}`)()
+const configPath = path.resolve(process.cwd(), './razor.config.js')
+const context = {
+    encoding: 'utf-8',
+    configPath,
+    getConfig() {
+        if (fs.existsSync(configPath)) {
+            return require(configPath)
+        }
+        else {
+            return {}
+        }
+    },
+}
+
+require(`../lib/commands/${command}`)(context)

@@ -2,7 +2,7 @@
 Scaffold for creating modern web application.
 ## create
 ```shell
-razor
+razor create
 ```
 ## develop
 ```shell
